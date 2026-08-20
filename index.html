@@ -4,16 +4,131 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12h-4l-3 9L9 3l-3 9H2'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HospitalSync | Real-Time Hospital Operations & Orchestration Command Center</title>
-    <meta name="description" content="HospitalSync - Next-generation AI-powered hospital operations dashboard, bottleneck detection, smart resource reallocation, impact ripple simulator, and patient journey tracking." />
+    <title>HospitalSync | Hospital Operations & Healthcare Telemetry Command Center</title>
+    <meta name="description" content="HospitalSync - Real-time hospital operations dashboard, bottleneck detection, smart resource reallocation, impact ripple simulator, and patient journey tracking." />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Plus Jakarta Sans', 'sans-serif'],
+              outfit: ['Outfit', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- React 18 & ReactDOM CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone CDN -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      body {
+        background-color: #070b14;
+        color: #f8fafc;
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-image: 
+          radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+          radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.07) 0%, transparent 40%),
+          radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.5) 0%, transparent 100%);
+        background-attachment: fixed;
+      }
+      .glass-panel {
+        background: rgba(13, 21, 39, 0.82);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        border-radius: 16px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .glass-panel:hover {
+        border-color: rgba(6, 182, 212, 0.3);
+        box-shadow: 0 12px 40px 0 rgba(6, 182, 212, 0.1);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.65rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .badge-red { background: rgba(244, 63, 94, 0.15); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.35); }
+      .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.35); }
+      .badge-emerald { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.35); }
+      .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.35); }
+      .badge-purple { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.35); }
+      .btn-primary {
+        background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+        color: #ffffff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 0.55rem 1.15rem;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 14px 0 rgba(6, 182, 212, 0.35);
+        transition: all 0.2s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+      }
+      .btn-secondary {
+        background: rgba(30, 41, 59, 0.8);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 0.55rem 1.15rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+      }
+      .btn-secondary:hover {
+        background: rgba(51, 65, 85, 0.9);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+      }
+      .metric-value {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+      }
+      .mono-font {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+      ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.4); border-radius: 4px; }
+    </style>
   </head>
-  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+  <body class="bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-black">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="text/babel" src="src/standaloneApp.jsx"></script>
   </body>
 </html>
