@@ -823,7 +823,7 @@ body::after {
     gap: 20px;
     margin-bottom: 26px;
 }
-
+/* Spotlight Card Styles */
 .spotlight-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-medium);
