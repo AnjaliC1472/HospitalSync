@@ -816,6 +816,7 @@ body::after {
 /* ==========================================================================
    SPOTLIGHT ACTION GRID (Bottleneck & Smart Reallocation)
    ========================================================================== */
+   /* HospitalSync action grid */
 .spotlight-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
